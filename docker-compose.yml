@@ -1,0 +1,37 @@
+services:
+  backend:
+    container_name: interactiva-backend
+    env_file: .env
+    build:
+      context: ./backend
+    ports:
+      - "${PORT}:${PORT}"
+    restart: always
+    depends_on:
+      - postgres
+
+  frontend:
+    container_name: interactiva-frontend
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    restart: always
+    depends_on:
+      - backend
+
+  postgres:
+    container_name: interactiva-postgres
+    image: postgres:16.3-alpine3.20
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+volumes:
+  postgresql_data:
