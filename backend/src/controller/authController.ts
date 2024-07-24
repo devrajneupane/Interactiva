@@ -6,9 +6,8 @@ import * as AuthService from "../service/authService";
 /**
  * Login user
  *
- * @param req Request
- * @param res Response
- * @returns Response
+ * @param {IRequest} req Request
+ * @param {Response} res Response
  */
 export async function login(req: Request, res: Response) {
   const { body } = req;
@@ -26,8 +25,8 @@ export async function login(req: Request, res: Response) {
 /**
  * Refresh access tokens
  *
- * @param req Request
- * @param res Response
+ * @param {IRequest} req Request
+ * @param {Response} res Response
  * @returns Response
  */
 export async function refresh(req: Request, res: Response) {

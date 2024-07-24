@@ -3,20 +3,20 @@ import { UUID } from "crypto";
 import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { IRequest } from "../interface/auth";
-import loggerWithNameSpace from "../utils/logger";
-import * as UserService from "../service/userService";
-import { IGetUserQuery } from "../interface/User";
 import { ROLE } from "../enums/Role";
 import { UnauthorizedError } from "../error";
+import { IRequest } from "../interface/auth";
+import { IGetUserQuery } from "../interface/User";
+import loggerWithNameSpace from "../utils/logger";
+import * as UserService from "../service/userService";
 
 const logger = loggerWithNameSpace(__filename);
 
 /**
  * Get user info for given user id or current user if user id is not provided
  *
- * @param req Request Object
- * @param res Response Object
+ * @param {IRequest} req Request Object
+ * @param {Response} res Response Object
  */
 export async function getUserInfo(req: IRequest, res: Response) {
   const id = req.params.id as UUID;
@@ -34,8 +34,8 @@ export async function getUserInfo(req: IRequest, res: Response) {
 /**
  * Get all users
  *
- * @param req Request Object with query parameters
- * @param res Response Object
+ * @param {IRequest} req Request Object with query parameters
+ * @param {Response} res Response Object
  * @returns List of users
  */
 export async function getUsers(req: IRequest, res: Response) {
@@ -51,8 +51,8 @@ export async function getUsers(req: IRequest, res: Response) {
 /**
  * Create new user
  *
- * @param req Request
- * @param res Response
+ * @param {IRequest} req Request
+ * @param {Response} res Response
  */
 export async function createUser(req: IRequest, res: Response) {
   const { body } = req;
@@ -67,8 +67,8 @@ export async function createUser(req: IRequest, res: Response) {
 /**
  * Update user
  *
- * @param req Request
- * @param res Response
+ * @param {IRequest} req Request
+ * @param {Response} res Response
  */
 export async function updateUser(req: IRequest, res: Response) {
   const id = req.query?.id as UUID;
@@ -85,8 +85,8 @@ export async function updateUser(req: IRequest, res: Response) {
 /**
  * Delete user
  *
- * @param req Request
- * @param res Response
+ * @param {IRequest} req Request
+ * @param {Response} res Response
  */
 export async function deleteUser(req: IRequest, res: Response) {
   const id = req.query.id as UUID;
