@@ -1,0 +1,1 @@
+export { messageBodySchema } from "./message"
