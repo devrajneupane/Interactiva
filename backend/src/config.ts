@@ -18,6 +18,9 @@ export const env = {
     name: process.env.DB_NAME,
     port: process.env.DB_PORT || 5432,
   },
+  ollama: {
+    host: process.env.OLLAMA_HOST,
+  },
 };
 
 export const rateLimiterOptions: Partial<Options> = {

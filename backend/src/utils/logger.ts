@@ -26,8 +26,9 @@ const logger = winston.createLogger({
   ],
 });
 
-const loggerWithNameSpace = function (namespace: string) {
+export const loggerWithNameSpace = function (namespace: string) {
   return logger.child({ namespace });
 };
 
+// TODO: remove this default export
 export default loggerWithNameSpace;

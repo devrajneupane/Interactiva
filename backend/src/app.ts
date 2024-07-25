@@ -2,6 +2,7 @@ import cors from "cors";
 import helmet from "helmet";
 import express from "express";
 import rateLimiter from "express-rate-limit";
+import cookieParser from "cookie-parser";
 
 import router from "./routes/";
 import loggerWithNameSpace from "./utils/logger";
@@ -15,6 +16,9 @@ const logger = loggerWithNameSpace(__filename);
 const app = express();
 
 const limiter = rateLimiter(rateLimiterOptions);
+
+// Middleware to Parse `Cookie` header and populate `req.cookies`
+app.use(cookieParser())
 
 // Middleware to secure the app by setting various HTTP response headers
 app.use(helmet());
