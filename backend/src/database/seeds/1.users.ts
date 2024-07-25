@@ -22,7 +22,13 @@ export function seed(knex: Knex): Promise<void> {
             "$2b$10$EQbCiDl66wfU2Pz38q9B2eB5RByx.KCwHOdqFiWvEmNgQmrzi/HQy",
           role: ROLE.ADMIN,
         },
+        {
+          id: "fff956ea-6730-41fd-9a99-eafdd9f14e4a",
+          name: "Jane",
+          email: "jane@email.com",
+          password:
+            "$2b$10$jyxVP9McABSYv8hehnLrc.DeNqxMeda9VjsQ1e5Gqm.HmUi1u2/0q",
+        },
       ]);
     });
 }
-
