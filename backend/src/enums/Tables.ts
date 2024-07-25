@@ -4,5 +4,5 @@ export enum TABLE {
   CHAT = "chats",
   MESSAGE = "messages",
   SHARED_CONTENT = "shared_contents",
-  COMMENTS = "comments",
+  COMMENT = "comments",
 }
