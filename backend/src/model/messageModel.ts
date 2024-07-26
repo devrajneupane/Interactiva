@@ -22,7 +22,7 @@ export class MessageModel extends BaseModel {
   ): Promise<IChat[]> {
     const messages = await this.queryBuilder()
       .select<IChat[]>("*")
-      .table(TABLE.CHAT)
+      .table(TABLE.MESSAGE)
       .where({ chatId })
       .limit(filter.size || 10)
       .offset((filter.page || 1 - 1) * (filter.size || 10));
