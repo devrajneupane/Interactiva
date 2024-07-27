@@ -16,7 +16,7 @@ cleanup() {
 trap cleanup INT
 
 # Start containers
-if [ "$1" == "build" ]; then
+if [ "$1" = "-b" ]; then
     $docker_compose_cmd up --build --watch
 else
     $docker_compose_cmd up --watch
