@@ -10,10 +10,21 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
+    "@types/highlightjs": "^9.12.6",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.2.2",
     "vite": "^5.3.4"
-  }
+  },
+  "dependencies": {
+    "highlight.js": "^11.10.0",
+    "jwt-decode": "^4.0.0",
+    "path-to-regexp": "^7.1.0"
+  },
+  "main": "postcss.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
