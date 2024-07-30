@@ -1,9 +1,7 @@
 import "./styles/style.css";
 
-import { App } from "./App.ts";
-
-const app = new App();
+import { initRouter } from "./router";
 
 document.addEventListener("DOMContentLoaded", () => {
-  app.init();
+  initRouter();
 });
