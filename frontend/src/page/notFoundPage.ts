@@ -18,3 +18,15 @@ export class NotFound extends Base {
     return this.container;
   }
 }
+
+export const render = () => {
+  const container = document.createElement("div");
+  container.className = "flex justify-center items-center h-screen";
+
+  const heading = document.createElement("h1");
+  heading.className = "text-3xl";
+  heading.textContent = "404 Page Not Found";
+
+  container.appendChild(heading);
+  return container;
+};
