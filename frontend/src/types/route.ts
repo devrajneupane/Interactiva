@@ -1,9 +1,6 @@
-export type Route = {
-  path: string;
-  handler: () => Promise<void>;
-};
+import { MatchFunction } from "path-to-regexp";
 
-export type Page = {
-  render: () => HTMLElement;
-  // update?: () => void;
+export type Route = {
+  path: MatchFunction<object>;
+  handler: (params?: { [key: string]: string }) => Promise<any>;
 };
