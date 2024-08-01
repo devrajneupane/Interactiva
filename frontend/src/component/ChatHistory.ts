@@ -1,3 +1,4 @@
+import { setCookie } from "../util";
 import { IMessage } from "../interface";
 import { getChat } from "../service/chatService";
 import { MessageContainer } from "./MessageContainer";
@@ -10,8 +11,10 @@ export class ChatHistory {
   constructor(title: string, id: string) {
     this.messages = [];
     this.historyElement = document.createElement("div");
-    this.historyElement.className = "text-left overflow-hidden text-nowrap";
+    this.historyElement.className =
+      "truncate text-left overflow-hidden text-nowrap";
     this.historyElement.textContent = title;
+    this.historyElement.id = id;
     this.clickHandler(id);
   }
 
@@ -25,9 +28,9 @@ export class ChatHistory {
 
   private async clickHandler(id: string) {
     this.historyElement.addEventListener("click", async () => {
-      document.cookie = `activeChatId=${id}`;
-      const response = await getChat(id);
-      const chat = await response.json();
+      setCookie("activeChatId", id);
+      const chat = await getChat(id);
+      // const chat = await chat.json();
       if (!chat) {
         throw new Error("Problem getting chat from database");
       }
@@ -36,6 +39,7 @@ export class ChatHistory {
       const messageContainer = new MessageContainer(messages);
       messageContainer.render();
       this.messages = messageContainer.message();
+      window.history.pushState(null, "", `/c/${id}`);
     });
   }
 }

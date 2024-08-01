@@ -1,5 +1,5 @@
 import { deleteAllCookies } from "../util";
-import { removeToken } from "../service/authService";
+import { getUser, removeToken } from "../service/authService";
 
 export const profileIconSetup = (container: HTMLDivElement) => {
   const menuButton =
@@ -7,24 +7,33 @@ export const profileIconSetup = (container: HTMLDivElement) => {
   const popupMenu = container.querySelector<HTMLDivElement>("#popupMenu")!;
 
   if (menuButton && popupMenu) {
-    menuButton.addEventListener("click", () => {
+    menuButton.addEventListener("click", (e: MouseEvent) => {
+      console.log(e.x, e.y);
+      const buttonRect = menuButton.getBoundingClientRect();
+      popupMenu.style.left = `${e.x - 140}px`;
+      popupMenu.style.top = `${e.y + buttonRect.height}px`;
       popupMenu.classList.toggle("hidden");
     });
 
     // Add event listeners for menu buttons
-    const settingsButton =
-      container.querySelector<HTMLButtonElement>("#settingsButton")!;
+    const userElement =
+      container.querySelector<HTMLButtonElement>("#userProfileButton")!;
+
+    const user = getUser()!;
+    const usernameElement = userElement.firstElementChild!;
+    usernameElement.textContent = user.name;
+
     const signOutButton =
       container.querySelector<HTMLButtonElement>("#signOutButton")!;
 
-    settingsButton.addEventListener("click", () => {
+    userElement.addEventListener("click", () => {
       console.log("Settings button clicked");
     });
 
     signOutButton.addEventListener("click", () => {
-      removeToken()
+      removeToken();
       window.location.replace("/auth");
-      deleteAllCookies()
+      deleteAllCookies();
     });
   }
 };
