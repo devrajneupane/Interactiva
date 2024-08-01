@@ -1,21 +1,31 @@
 <section class="bg-gray-100">
-  <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
+  <div class="rounded-lg bg-white p-8 lg:col-span-3 lg:p-12">
     <form id="model-creation-form" class="space-y-4">
       <div>
-        <label for="name">Name</label>
+        <label for="name">
+          Name
+          <span class="text-red-500">*</span>
+        </label>
         <input
           class="w-full rounded-lg border-gray-200 p-3 text-sm"
           placeholder="Model name"
           type="text"
           name="name"
+          required
+          autocomplete="off"
         />
       </div>
 
       <div>
-        <label for="base-model">Base Model</label>
+        <label for="base-model">
+          Base Model
+          <span class="text-red-500">*</span>
+        </label>
         <select
+          id="models-dropdown"
           name="base_model"
           class="w-full rounded-lg border-gray-200 p-3 text-sm"
+          required
         >
           <option value="">Select a base model</option>
         </select>
@@ -51,7 +61,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
       <div class="my-2">
         <div id="params-container" class="space-y-1 text-xs">
           <div class="py-0.5 w-full justify-between">
-            <div class="self-center text-xs font-medium">Seed</div>
+            <div
+              title="Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)"
+              class="self-center text-xs font-medium"
+            >
+              Seed
+            </div>
             <div class="flex w-full justify-between"></div>
             <div class="flex mt-0.5 space-x-2">
               <div class="flex-1">
@@ -68,12 +83,17 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Stop Sequence</div>
+              <div
+                title="Sets the stop sequences to use. When this pattern is encountered the LLM will stop generating text and return. Multiple stop patterns may be set by specifying multiple separate stop parameters in a modelfile."
+                class="self-center text-xs font-medium"
+              >
+                Stop Sequence
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <div class="flex-1">
                 <input
-                  name="stop_sequence"
+                  name="stop"
                   class="w-full rounded-lg py-2 px-4 outline-none"
                   type="text"
                   placeholder="Enter stop sequence"
@@ -84,7 +104,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Temperature</div>
+              <div
+                title="The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)"
+                class="self-center text-xs font-medium"
+              >
+                Temperature
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -102,7 +127,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Mirostat</div>
+              <div
+                class="self-center text-xs font-medium"
+                title="Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)"
+              >
+                Mirostat
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -120,7 +150,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Mirostat Eta</div>
+              <div
+                title="Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)"
+                class="self-center text-xs font-medium"
+              >
+                Mirostat Eta
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -138,7 +173,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Mirostat Tau</div>
+              <div
+                title="Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)"
+                class="self-center text-xs font-medium"
+              >
+                Mirostat Tau
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -156,7 +196,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Top K</div>
+              <div
+                title="Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)"
+                class="self-center text-xs font-medium"
+              >
+                Top K
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -174,7 +219,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Top P</div>
+              <div
+                title="Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)"
+                class="self-center text-xs font-medium"
+              >
+                Top P
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -192,7 +242,10 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">
+              <div
+                title="Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)"
+                class="self-center text-xs font-medium"
+              >
                 Frequency Penalty
               </div>
             </div>
@@ -212,7 +265,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Repeat Last N</div>
+              <div
+                title="Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)"
+                class="self-center text-xs font-medium"
+              >
+                Repeat Last N
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -230,7 +288,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Tfs Z</div>
+              <div
+                title="Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)"
+                class="self-center text-xs font-medium"
+              >
+                Tfs Z
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -248,7 +311,12 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">Context Length</div>
+              <div
+                title="the size of the context window used to generate the next token. (Default: 2048)"
+                class="self-center text-xs font-medium"
+              >
+                Context Length
+              </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
@@ -286,19 +354,22 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">
-                Tokens To Keep On Context Refresh (num_keep)
+              <div
+                title="Alternative to the top_p, and aims to ensure a balance of quality and variety. The parameter p represents the minimum probability for a token to be considered, relative to the probability of the most likely token. For example, with p=0.05 and the most likely token having a probability of 0.9, logits with a value less than 0.045 are filtered out. (Default: 0.0)"
+                class="self-center text-xs font-medium"
+              >
+                Min P
               </div>
             </div>
             <div class="flex mt-0.5 space-x-2">
               <input
-                name="num_keep"
+                name="min_p"
                 type="range"
-                min="-1"
-                max="10240000"
-                step="1"
-                value="24"
-                data-default="24"
+                min="0"
+                max="1"
+                step="0.005"
+                value="0.0"
+                data-default="0.0"
                 class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
               />
               <span class="sliderValue"></span>
@@ -306,7 +377,10 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
           </div>
           <div class="py-0.5 w-full justify-between">
             <div class="flex w-full justify-between">
-              <div class="self-center text-xs font-medium">
+              <div
+                title="Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)"
+                class="self-center text-xs font-medium"
+              >
                 Max Tokens (num_predict)
               </div>
             </div>
@@ -324,116 +398,6 @@ e.g.) You are a chatbot that helps users with their queries. You can answer ques
               <span class="sliderValue"></span>
             </div>
           </div>
-          <!-- <div class="py-0.5 w-full justify-between"> -->
-          <!--   <div class="flex w-full justify-between"> -->
-          <!--     <div class="self-center text-xs font-medium"> -->
-          <!--       use_mmap (Ollama) -->
-          <!--     </div> -->
-          <!--   </div> -->
-          <!--   <div class="flex justify-between items-center mt-1"> -->
-          <!--     <div class="text-xs text-gray-500">Enabled</div> -->
-          <!--     <div class="pr-2"> -->
-          <!--       <button -->
-          <!--         data-state="checked" -->
-          <!--         type="button" -->
-          <!--         role="switch" -->
-          <!--         aria-checked="true" -->
-          <!--         data-melt-switch="" -->
-          <!--         data-switch-root="" -->
-          <!--         data-checked="" -->
-          <!--         class="flex h-5 min-h-5 w-9 shrink-0 cursor-pointer items-center rounded-full px-[3px] transition bg-emerald-600 outline outline-1 outline-gray-100 dark:outline-gray-800" -->
-          <!--       > -->
-          <!--         <span -->
-          <!--           class="pointer-events-none block size-4 shrink-0 rounded-full bg-white transition-transform data-[state=checked]:translate-x-3.5 data-[state=unchecked]:translate-x-0 data-[state=unchecked]:shadow-mini" -->
-          <!--           data-switch-thumb="" -->
-          <!--           data-state="checked" -->
-          <!--           data-checked="" -->
-          <!--         ></span> -->
-          <!--       </button> -->
-          <!--       <input -->
-          <!--         type="checkbox" -->
-          <!--         aria-hidden="true" -->
-          <!--         hidden="true" -->
-          <!--         tabindex="-1" -->
-          <!--         name="" -->
-          <!--         value="on" -->
-          <!--         style=" -->
-          <!--           position: absolute; -->
-          <!--           opacity: 0; -->
-          <!--           pointer-events: none; -->
-          <!--           margin: 0px; -->
-          <!--           transform: translateX(-100%); -->
-          <!--         " -->
-          <!--         data-melt-switch-input="" -->
-          <!--       /> -->
-          <!--     </div> -->
-          <!--   </div> -->
-          <!-- </div> -->
-          <!-- <div class="py-0.5 w-full justify-between"> -->
-          <!--   <div class="flex w-full justify-between"> -->
-          <!--     <div class="self-center text-xs font-medium"> -->
-          <!--       use_mlock (Ollama) -->
-          <!--     </div> -->
-          <!--   </div> -->
-          <!--   <div class="flex justify-between items-center mt-1"> -->
-          <!--     <div class="text-xs text-gray-500">Enabled</div> -->
-          <!--     <div class="pr-2"> -->
-          <!--       <button -->
-          <!--         data-state="checked" -->
-          <!--         type="button" -->
-          <!--         role="switch" -->
-          <!--         aria-checked="true" -->
-          <!--         data-melt-switch="" -->
-          <!--         data-switch-root="" -->
-          <!--         data-checked="" -->
-          <!--         class="flex h-5 min-h-5 w-9 shrink-0 cursor-pointer items-center rounded-full px-[3px] transition bg-emerald-600 outline outline-1 outline-gray-100 dark:outline-gray-800" -->
-          <!--       > -->
-          <!--         <span -->
-          <!--           class="pointer-events-none block size-4 shrink-0 rounded-full bg-white transition-transform data-[state=checked]:translate-x-3.5 data-[state=unchecked]:translate-x-0 data-[state=unchecked]:shadow-mini" -->
-          <!--           data-switch-thumb="" -->
-          <!--           data-state="checked" -->
-          <!--           data-checked="" -->
-          <!--         ></span> -->
-          <!--       </button> -->
-          <!--       <input -->
-          <!--         type="checkbox" -->
-          <!--         aria-hidden="true" -->
-          <!--         hidden="true" -->
-          <!--         tabindex="-1" -->
-          <!--         name="" -->
-          <!--         value="on" -->
-          <!--         style=" -->
-          <!--           position: absolute; -->
-          <!--           opacity: 0; -->
-          <!--           pointer-events: none; -->
-          <!--           margin: 0px; -->
-          <!--           transform: translateX(-100%); -->
-          <!--         " -->
-          <!--         data-melt-switch-input="" -->
-          <!--       /> -->
-          <!--     </div> -->
-          <!--   </div> -->
-          <!-- </div> -->
-          <!-- <div class="py-0.5 w-full justify-between"> -->
-          <!--   <div class="flex w-full justify-between"> -->
-          <!--     <div class="self-center text-xs font-medium"> -->
-          <!--       num_thread (Ollama) -->
-          <!--     </div> -->
-          <!--   </div> -->
-          <!--   <div class="flex mt-0.5 space-x-2"> -->
-          <!--     <input -->
-          <!--       id="steps-range" -->
-          <!--       type="range" -->
-          <!--       min="1" -->
-          <!--       max="256" -->
-          <!--       step="1" -->
-          <!--       value="2" -->
-          <!--       data-default="2" -->
-          <!--       class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" -->
-          <!--     /> -->
-          <!--     <span class="sliderValue"></span> -->
-          <!--   </div> -->
-          <!-- </div> -->
         </div>
       </div>
 
