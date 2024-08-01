@@ -5,7 +5,7 @@ import { BaseModel } from "./Base";
 import { IChat, IGetUserQuery, IMessage } from "../interface";
 
 /**
- * ChatModel class represents operations related to message management
+ * `MessageModel` class represents operations related to message management
  * Extends BaseModel for common functionalities
  */
 export class MessageModel extends BaseModel {

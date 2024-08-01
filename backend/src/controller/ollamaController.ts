@@ -1,3 +1,5 @@
+import { UUID } from "crypto";
+
 import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
@@ -10,9 +12,11 @@ const logger = loggerWithNameSpace(__filename);
 /**
  * List models that are available locally
  *
+ * @param {IRequest} req Request Object
+ * @param {Response} res Response Object
  * @returns List of models
  */
-export async function getLocalModels(req: IRequest, res: Response) {
+export async function getOllamaModels(req: IRequest, res: Response) {
   logger.info("Getting local models");
   const models = await OllamaService.getLocalModels();
 
@@ -24,6 +28,9 @@ export async function getLocalModels(req: IRequest, res: Response) {
 /**
  * Generate next chat based on prompt and previous messages
  *
+ * @param {IRequest} req Request Object
+ * @param {Response} res Response Object
+ * @returns Stream of chat messages
  */
 export async function ollamaChat(req: IRequest, res: Response) {
   // TODO: schema validation for req.body
@@ -32,9 +39,9 @@ export async function ollamaChat(req: IRequest, res: Response) {
   const response = await OllamaService.ollamaChat(body);
 
   res.writeHead(200, {
-    'Content-Type': 'text/plain; charset=utf-8',
-    'Transfer-Encoding': 'chunked',
-    'X-Content-Type-Options': 'nosniff'
+    "Content-Type": "text/plain; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "X-Content-Type-Options": "nosniff",
   });
 
   try {
@@ -58,13 +65,35 @@ export async function ollamaChat(req: IRequest, res: Response) {
     }
   }
   logger.info("Chat with Ollama successful");
-
-  // res.status(StatusCodes.OK).json(response);
 }
 
 /**
  * Create a model from `Modelfile`
+ *
+ * @param {IRequest} req Request Object
+ * @param {Response} res Response Object
  */
 export async function createModel(req: IRequest, res: Response) {
+  const userId = req.user?.id as UUID;
+  const { body } = req;
 
+  logger.info("Creating a new model");
+  await OllamaService.ollamaCreateModel(userId, body);
+  logger.info("Model created successfully");
+}
+
+/**
+ * Generete a completion for given prompt
+ *
+ * @param {IRequest} req Request Object
+ * @param {Response} res Response Object
+ * @returns generated completion
+ */
+export async function generateCompletion(req: IRequest, res: Response) {
+  const { body } = req;
+  console.warn("DEBUGPRINT[1]: ollamaController.ts:94: body=", body)
+  logger.info("Generating completion for prompt");
+  const response = await OllamaService.ollamaGenerate(body);
+  logger.info("Completiong generated successfully");
+  res.status(StatusCodes.OK).json(response);
 }

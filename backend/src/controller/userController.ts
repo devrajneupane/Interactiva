@@ -20,8 +20,8 @@ const logger = loggerWithNameSpace(__filename);
  */
 export async function getUserInfo(req: IRequest, res: Response) {
   const id = req.params.id as UUID;
-  if (id !== req.user?.id && req.user?.role !== ROLE.ADMIN)
-    throw new UnauthorizedError("You are not authorized to access this user");
+  // if (id !== req.user?.id && req.user?.role !== ROLE.ADMIN)
+  //   throw new UnauthorizedError("You are not authorized to access this user");
 
   logger.info(`Getting information for user ${id}`);
 

@@ -7,19 +7,11 @@ import { ROLE } from "../enums";
 
 const router = Router();
 
-router.get(
-  "/list",
-  requestHandler([
-    // authenticate,
-    // TODO:DEV
-    controller.getLocalModels,
-  ]),
-);
+router.get("/list", requestHandler([authenticate, controller.getOllamaModels]));
 
 router.post(
   "/chat",
   requestHandler([
-    // TODO:DEV
     authenticate,
     authorize([ROLE.USER, ROLE.ADMIN]),
     controller.ollamaChat,
@@ -29,10 +21,18 @@ router.post(
 router.post(
   "/create",
   requestHandler([
-    // TODO:DEV
     authenticate,
     authorize([ROLE.USER, ROLE.ADMIN]),
     controller.createModel,
+  ]),
+);
+
+router.post(
+  "/generate",
+  requestHandler([
+    authenticate,
+    authorize([ROLE.USER, ROLE.ADMIN]),
+    controller.generateCompletion,
   ]),
 );
 

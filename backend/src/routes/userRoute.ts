@@ -23,7 +23,7 @@ router.get(
   "/:id",
   requestHandler([
     authenticate,
-    authorize([ROLE.ADMIN, ROLE.USER]),
+    // authorize([ROLE.ADMIN, ROLE.USER]),
     validator.validateReqParams(schema.userReqParamSchema),
     controller.getUserInfo,
   ]),
