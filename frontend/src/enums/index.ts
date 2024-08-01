@@ -1,0 +1,1 @@
+export { CommentableType } from "./CommentableType";
