@@ -1,19 +1,18 @@
 import { Knex } from "knex";
 
-import { TABLE } from "../../enums/Tables";
+import { TABLE } from "../../enums";
 
 /**
- * Create table `TABLE.MODEL`.
+ * Create table `TABLE.PROMPT`.
  *
  * @param   {Knex} knex
  * @returns {Promise}
  */
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema.createTable(TABLE.MODEL, (table) => {
+  return knex.schema.createTable(TABLE.PROMPT, (table) => {
     table.uuid("id", { primaryKey: true, useBinaryUuid: true });
-    table.string("name", 50).notNullable();
-    table.text("description");
-    table.jsonb("params");
+    table.string("title", 255).notNullable();
+    table.text("prompt").notNullable();
     table.integer("likes").defaultTo(0);
     table
       .uuid("user_id", { useBinaryUuid: true })
@@ -26,11 +25,11 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 /**
- * Drop table `TABLE.MODEL`.
+ * Drop table `TABLE.PROMPT`.
  *
  * @param   {Knex} knex
  * @returns {Promise}
  */
 export async function down(knex: Knex): Promise<void> {
-  return knex.schema.dropTable(TABLE.MODEL);
+  return knex.schema.dropTable(TABLE.PROMPT);
 }
