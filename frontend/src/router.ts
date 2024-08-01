@@ -2,6 +2,7 @@ import { match } from "path-to-regexp";
 
 import { Route } from "./types";
 import { isAuthenticated } from "./service/authService";
+import { CommentableType } from "./enums";
 
 const routes: Route[] = [
   {
@@ -42,6 +43,47 @@ const routes: Route[] = [
         return import("./page/authPage");
       }
       return import("./page/workspacePage");
+    },
+  },
+  {
+    path: match("/explore"),
+    handler: async () => {
+      if (!isAuthenticated()) {
+        window.history.pushState(null, "", "/auth");
+        return import("./page/authPage");
+      }
+      return import("./page/explorePage");
+      // const module = await import("./page/explorePage");
+      // return {
+      //   render: () => module.render(),
+      // };
+    },
+  },
+  {
+    path: match("/c/:id"),
+    handler: async (params) => {
+      const module = await import("./page/chatPage");
+      return {
+        render: () => module.render(params!.id),
+      };
+    },
+  },
+  {
+    path: match("/prompts/:id"),
+    handler: async (params) => {
+      const module = await import("./page/detailsPage");
+      return {
+        render: () => module.render(CommentableType.PROMPT, params!.id),
+      };
+    },
+  },
+  {
+    path: match("/models/:id"),
+    handler: async (params) => {
+      const module = await import("./page/detailsPage");
+      return {
+        render: () => module.render(CommentableType.MODEL, params!.id),
+      };
     },
   },
 ];
@@ -86,6 +128,7 @@ export const initRouter = () => {
     }
   };
 
+  // Listen for changes in the browser's history
   window.addEventListener("popstate", () => {
     const path = window.location.pathname;
     navigate(path);
@@ -95,6 +138,7 @@ export const initRouter = () => {
     const target = e.target as HTMLAnchorElement;
 
     if (target.matches("[data-link]")) {
+      console.warn("DEBUGPRINT[13]: router.ts:140 (after if (target.matches([data-link])) )")
       e.preventDefault();
       const route = target.getAttribute("href");
 
