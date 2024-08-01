@@ -1,0 +1,450 @@
+<section class="bg-gray-100">
+  <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
+    <form id="model-creation-form" class="space-y-4">
+      <div>
+        <label for="name">Name</label>
+        <input
+          class="w-full rounded-lg border-gray-200 p-3 text-sm"
+          placeholder="Model name"
+          type="text"
+          name="name"
+        />
+      </div>
+
+      <div>
+        <label for="base-model">Base Model</label>
+        <select
+          name="base_model"
+          class="w-full rounded-lg border-gray-200 p-3 text-sm"
+        >
+          <option value="">Select a base model</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="model-description">Description</label>
+        <textarea
+          class="resize-none w-full rounded-lg border-gray-200 p-3 text-sm"
+          placeholder="Add short description about your model"
+          rows="2"
+          id="model-description"
+          name="model_description"
+        ></textarea>
+      </div>
+
+      <hr class="my-1" />
+
+      <div>
+        <div class="self-center font-semibold">Model Params</div>
+        <div>
+          <label for="system-prompt">System Prompt</label>
+          <textarea
+            class="resize-none w-full rounded-lg border-gray-200 p-3 text-sm"
+            placeholder="Write your model system prompt content here
+e.g.) You are a chatbot that helps users with their queries. You can answer questions about programming, math, science, and more."
+            rows="4"
+            name="system_prompt"
+          ></textarea>
+        </div>
+      </div>
+      <div class="self-center">Advanced Params</div>
+      <div class="my-2">
+        <div id="params-container" class="space-y-1 text-xs">
+          <div class="py-0.5 w-full justify-between">
+            <div class="self-center text-xs font-medium">Seed</div>
+            <div class="flex w-full justify-between"></div>
+            <div class="flex mt-0.5 space-x-2">
+              <div class="flex-1">
+                <input
+                  name="seed"
+                  class="w-full rounded-lg py-2 px-4 outline-none"
+                  type="number"
+                  placeholder="Enter Seed"
+                  autocomplete="off"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Stop Sequence</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <div class="flex-1">
+                <input
+                  name="stop_sequence"
+                  class="w-full rounded-lg py-2 px-4 outline-none"
+                  type="text"
+                  placeholder="Enter stop sequence"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Temperature</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="temperature"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value="0.80"
+                data-default="0.80"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Mirostat</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="mirostat"
+                type="range"
+                min="0"
+                max="2"
+                step="1"
+                value="0"
+                data-default="0"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Mirostat Eta</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="mirostat_eta"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value="0.1"
+                data-default="0.1"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Mirostat Tau</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="mirostat_tau"
+                type="range"
+                min="0"
+                max="10"
+                step="0.5"
+                value="5"
+                data-default="5"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Top K</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="top_k"
+                type="range"
+                min="0"
+                max="100"
+                step="0.5"
+                value="40"
+                data-default="40"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Top P</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="top_p"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value="0.9"
+                data-default="0.9"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">
+                Frequency Penalty
+              </div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="repeat_penalty"
+                type="range"
+                min="0"
+                max="2"
+                step="0.05"
+                value="1.1"
+                data-default="1.1"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Repeat Last N</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="repeat_last_n"
+                type="range"
+                min="-1"
+                max="128"
+                step="1"
+                value="64"
+                data-default="64"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Tfs Z</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="tfs_z"
+                type="range"
+                min="0"
+                max="2"
+                step="0.05"
+                value="1"
+                data-default="1"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">Context Length</div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="num_ctx"
+                type="range"
+                min="-1"
+                max="10240000"
+                step="1"
+                value="2048"
+                data-default="2048"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">
+                Batch Size (num_batch)
+              </div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="num_batch"
+                type="range"
+                min="256"
+                max="8192"
+                step="256"
+                value="512"
+                data-default="512"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">
+                Tokens To Keep On Context Refresh (num_keep)
+              </div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="num_keep"
+                type="range"
+                min="-1"
+                max="10240000"
+                step="1"
+                value="24"
+                data-default="24"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <div class="py-0.5 w-full justify-between">
+            <div class="flex w-full justify-between">
+              <div class="self-center text-xs font-medium">
+                Max Tokens (num_predict)
+              </div>
+            </div>
+            <div class="flex mt-0.5 space-x-2">
+              <input
+                name="num_predict"
+                type="range"
+                min="-2"
+                max="16000"
+                step="1"
+                value="128"
+                data-default="128"
+                class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              />
+              <span class="sliderValue"></span>
+            </div>
+          </div>
+          <!-- <div class="py-0.5 w-full justify-between"> -->
+          <!--   <div class="flex w-full justify-between"> -->
+          <!--     <div class="self-center text-xs font-medium"> -->
+          <!--       use_mmap (Ollama) -->
+          <!--     </div> -->
+          <!--   </div> -->
+          <!--   <div class="flex justify-between items-center mt-1"> -->
+          <!--     <div class="text-xs text-gray-500">Enabled</div> -->
+          <!--     <div class="pr-2"> -->
+          <!--       <button -->
+          <!--         data-state="checked" -->
+          <!--         type="button" -->
+          <!--         role="switch" -->
+          <!--         aria-checked="true" -->
+          <!--         data-melt-switch="" -->
+          <!--         data-switch-root="" -->
+          <!--         data-checked="" -->
+          <!--         class="flex h-5 min-h-5 w-9 shrink-0 cursor-pointer items-center rounded-full px-[3px] transition bg-emerald-600 outline outline-1 outline-gray-100 dark:outline-gray-800" -->
+          <!--       > -->
+          <!--         <span -->
+          <!--           class="pointer-events-none block size-4 shrink-0 rounded-full bg-white transition-transform data-[state=checked]:translate-x-3.5 data-[state=unchecked]:translate-x-0 data-[state=unchecked]:shadow-mini" -->
+          <!--           data-switch-thumb="" -->
+          <!--           data-state="checked" -->
+          <!--           data-checked="" -->
+          <!--         ></span> -->
+          <!--       </button> -->
+          <!--       <input -->
+          <!--         type="checkbox" -->
+          <!--         aria-hidden="true" -->
+          <!--         hidden="true" -->
+          <!--         tabindex="-1" -->
+          <!--         name="" -->
+          <!--         value="on" -->
+          <!--         style=" -->
+          <!--           position: absolute; -->
+          <!--           opacity: 0; -->
+          <!--           pointer-events: none; -->
+          <!--           margin: 0px; -->
+          <!--           transform: translateX(-100%); -->
+          <!--         " -->
+          <!--         data-melt-switch-input="" -->
+          <!--       /> -->
+          <!--     </div> -->
+          <!--   </div> -->
+          <!-- </div> -->
+          <!-- <div class="py-0.5 w-full justify-between"> -->
+          <!--   <div class="flex w-full justify-between"> -->
+          <!--     <div class="self-center text-xs font-medium"> -->
+          <!--       use_mlock (Ollama) -->
+          <!--     </div> -->
+          <!--   </div> -->
+          <!--   <div class="flex justify-between items-center mt-1"> -->
+          <!--     <div class="text-xs text-gray-500">Enabled</div> -->
+          <!--     <div class="pr-2"> -->
+          <!--       <button -->
+          <!--         data-state="checked" -->
+          <!--         type="button" -->
+          <!--         role="switch" -->
+          <!--         aria-checked="true" -->
+          <!--         data-melt-switch="" -->
+          <!--         data-switch-root="" -->
+          <!--         data-checked="" -->
+          <!--         class="flex h-5 min-h-5 w-9 shrink-0 cursor-pointer items-center rounded-full px-[3px] transition bg-emerald-600 outline outline-1 outline-gray-100 dark:outline-gray-800" -->
+          <!--       > -->
+          <!--         <span -->
+          <!--           class="pointer-events-none block size-4 shrink-0 rounded-full bg-white transition-transform data-[state=checked]:translate-x-3.5 data-[state=unchecked]:translate-x-0 data-[state=unchecked]:shadow-mini" -->
+          <!--           data-switch-thumb="" -->
+          <!--           data-state="checked" -->
+          <!--           data-checked="" -->
+          <!--         ></span> -->
+          <!--       </button> -->
+          <!--       <input -->
+          <!--         type="checkbox" -->
+          <!--         aria-hidden="true" -->
+          <!--         hidden="true" -->
+          <!--         tabindex="-1" -->
+          <!--         name="" -->
+          <!--         value="on" -->
+          <!--         style=" -->
+          <!--           position: absolute; -->
+          <!--           opacity: 0; -->
+          <!--           pointer-events: none; -->
+          <!--           margin: 0px; -->
+          <!--           transform: translateX(-100%); -->
+          <!--         " -->
+          <!--         data-melt-switch-input="" -->
+          <!--       /> -->
+          <!--     </div> -->
+          <!--   </div> -->
+          <!-- </div> -->
+          <!-- <div class="py-0.5 w-full justify-between"> -->
+          <!--   <div class="flex w-full justify-between"> -->
+          <!--     <div class="self-center text-xs font-medium"> -->
+          <!--       num_thread (Ollama) -->
+          <!--     </div> -->
+          <!--   </div> -->
+          <!--   <div class="flex mt-0.5 space-x-2"> -->
+          <!--     <input -->
+          <!--       id="steps-range" -->
+          <!--       type="range" -->
+          <!--       min="1" -->
+          <!--       max="256" -->
+          <!--       step="1" -->
+          <!--       value="2" -->
+          <!--       data-default="2" -->
+          <!--       class="w-full h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" -->
+          <!--     /> -->
+          <!--     <span class="sliderValue"></span> -->
+          <!--   </div> -->
+          <!-- </div> -->
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button
+          type="submit"
+          class="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
+        >
+          Create
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
