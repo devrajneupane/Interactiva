@@ -20,8 +20,8 @@ const logger = loggerWithNameSpace(__filename);
  */
 export async function getChat(req: IRequest, res: Response) {
   const id = req.params.id as UUID;
-  if (id !== req.user?.id && req.user?.role !== ROLE.ADMIN)
-    throw new UnauthorizedError("You are not authorized to access this chat");
+  // if (id !== req.user?.id && req.user?.role !== ROLE.ADMIN)
+  //   throw new UnauthorizedError("You are not authorized to access this chat");
 
   logger.info(`Getting information for chat ${id}`);
 
@@ -51,10 +51,10 @@ export async function getChats(req: IRequest, res: Response) {
 }
 
 /**
- * Create new chat
+ * Create a new chat to start conversation with model
  *
- * @param {IRequest} req Request
- * @param {Response} res Response
+ * @param {IRequest} req Request Object
+ * @param {Response} res Respons Object
  * @returns HTTP Response
  */
 export async function createChat(req: IRequest, res: Response) {
@@ -69,10 +69,10 @@ export async function createChat(req: IRequest, res: Response) {
 }
 
 /**
- * Update user
+ * Update chat by given id
  *
- * @param {IRequest} req Request
- * @param {Response} res Response
+ * @param {IRequest} req Request Object
+ * @param {Response} res Response Object
  * @returns HTTP Response
  */
 export async function updateChat(req: IRequest, res: Response) {
@@ -88,10 +88,10 @@ export async function updateChat(req: IRequest, res: Response) {
 }
 
 /**
- * Delete user
+ * Delete Chat by given id
  *
- * @param {IRequest} req Request
- * @param {Response} res Response
+ * @param {IRequest} req Request Object
+ * @param {Response} res Response Object
  * @returns HTTP Response
  */
 export async function deleteChat(req: IRequest, res: Response) {

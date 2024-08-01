@@ -23,6 +23,7 @@ export class ChatModel extends BaseModel {
       .select<IChat[]>("id", "title", "created_at", "updated_at")
       .table(TABLE.CHAT)
       .where({ userId })
+      .orderBy("created_at")
       .limit(filter.size || 10)
       .offset((filter.page || 1 - 1) * (filter.size || 10));
 
