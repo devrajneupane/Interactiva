@@ -1,3 +1,7 @@
+import { ModelName } from "../component/ModelName";
+import { IModel, IModelParams } from "../interface";
+import { createModel, getModels } from "../service/ollamaService";
+
 export const render = async () => {
   const container = document.createElement("div");
   const chatView = await fetch("/views/chat.html");
@@ -26,8 +30,6 @@ export const render = async () => {
   const sliders = main.querySelectorAll<HTMLInputElement>(
     'input[type="range"]',
   );
-  // const switches =
-  //   main.querySelectorAll<HTMLButtonElement>("[data-melt-switch]");
 
   // Initialize sliders
   sliders.forEach((slider) => {
@@ -37,19 +39,42 @@ export const render = async () => {
     }
   });
 
+  const modelsDropdown =
+    main.querySelector<HTMLSelectElement>("#models-dropdown")!;
+  let models = await getModels();
+
+  if (models) {
+    modelsDropdown.innerHTML = "";
+    models.forEach((model: IModel) => {
+      const modelName = new ModelName(model.name).render();
+      modelsDropdown.appendChild(modelName);
+    });
+  }
+
   // Handle form submission
   const form = main.querySelector<HTMLFormElement>("#model-creation-form")!;
 
   form.addEventListener("submit", (event: Event) => {
     event.preventDefault();
     const formData = new FormData(form);
-    const data: { [key: string]: string } = {};
+    const data: IModelParams = {
+      params: {},
+    };
 
-    formData.forEach((value, key) => {
-      data[key] = value.toString();
-    });
+    for (const [key, value] of formData.entries()) {
+      const input = form.querySelector(`[name="${key}"]`) as HTMLInputElement;
 
-    console.log("Form data:", data);
+      if (
+        input &&
+        (input.type === "range" || ["seed", "temperature", "stop"].includes(key))
+      ) {
+        data.params[key] = value.toString();
+      } else {
+        data[key] = value;
+      }
+    }
+
+    createModel(data);
   });
 
   return container;

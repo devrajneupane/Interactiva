@@ -1,38 +1,43 @@
 import hljs from "highlight.js";
 
+import {
+  generateTitle,
+  getModelResponse,
+  getModels,
+} from "../service/ollamaService";
+import { getCookie } from "../util";
+import { IModel } from "../interface";
 import { Message } from "../component";
-import { getChats } from "../service/chatService";
 import { ModelName } from "../component/ModelName";
 import { ChatHistory } from "../component/ChatHistory";
 import { profileIconSetup } from "../component/Profile";
 import { updateMessageDatabase } from "../service/messageService";
-import { getModelResponse, getModels } from "../service/ollamaService";
-import { CreateModel } from "../component/CreateModel";
+import { getChat, getChats, updateChat } from "../service/chatService";
 
-interface IModel extends Record<string, any> {
-  name: string;
-}
-
-export const render = async () => {
+export const render = async (id?: string) => {
   const container = document.createElement("div");
   let messages: { role: string; content: string }[] = [];
+  let model = "";
 
   const view = await fetch("/views/chat.html");
   container.innerHTML = await view.text();
 
   const modelsDropdown =
-    container.querySelector<HTMLOptionElement>("#models-dropdown")!;
+    container.querySelector<HTMLSelectElement>("#models-dropdown")!;
 
-  modelsDropdown.addEventListener("click", async () => {
-    // FIX: Only fetch models when dropdown not active
-    // if (document.activeElement === modelsDropdown) return;
-
+  modelsDropdown.addEventListener("focus", async () => {
     let models = await getModels();
+    if (!models) return;
     modelsDropdown.innerHTML = "";
-    models.models.forEach((model: IModel) => {
+
+    models.forEach((model: IModel) => {
       const modelName = new ModelName(model.name).render();
       modelsDropdown.appendChild(modelName);
     });
+  });
+
+  modelsDropdown.addEventListener("change", () => {
+    model = modelsDropdown.value.split(":")[0];
   });
 
   const button = container.querySelector<HTMLButtonElement>(
@@ -52,12 +57,12 @@ export const render = async () => {
   });
 
   button.addEventListener("click", async () => {
-    if (!textarea.value) return;
+    const userPrompt = textarea.value;
+    if (!userPrompt) return;
 
     const messagesContainer =
       container.querySelector<HTMLDivElement>("#message-container")!;
 
-    const userPrompt = textarea.value;
     textarea.value = "";
 
     messages.push({ role: "user", content: userPrompt });
@@ -66,7 +71,10 @@ export const render = async () => {
     messagesContainer.appendChild(message.render());
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-    const modelResponse = await getModelResponse(messages);
+    const modelResponse = await getModelResponse({
+      model: model,
+      messages: messages,
+    });
     const reader = modelResponse.body?.getReader();
     const decoder = new TextDecoder();
 
@@ -88,6 +96,22 @@ export const render = async () => {
         // Update message to database
         await updateMessageDatabase(messages.slice(-2));
 
+        const activeChatId = getCookie("activeChatId")!;
+        const activeChat = await getChat(activeChatId);
+
+        // Don't set title if it already exists
+        if (activeChat.title) break;
+
+        const title = await generateTitle({ model: model, prompt: userPrompt });
+
+        if (title) await updateChat({ id: activeChatId, title: title });
+        const chatHistory =
+          container.querySelector<HTMLDivElement>("#sidebar-history")!;
+        const activeChatElement = chatHistory.querySelector<HTMLDivElement>(
+          `"#${id}"`,
+        ) as HTMLDivElement;
+        activeChatElement.textContent = title;
+
         break;
       }
       let decodedChunk = decoder.decode(value, { stream: true });
@@ -107,7 +131,6 @@ export const render = async () => {
     const chatHistory =
       container.querySelector<HTMLDivElement>("#sidebar-history")!;
     chats.data.forEach((chat: Record<any, any>) => {
-      // TODO: Fix chat title
       const history = new ChatHistory(chat.id, chat.id);
       const historyElement = history.render();
       chatHistory.appendChild(historyElement);
