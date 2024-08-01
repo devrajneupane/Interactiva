@@ -1,3 +1,4 @@
+import { getCookie } from "../util";
 import { INTERACTIVA_BASE_URL } from "../util/constant";
 
 export const updateMessageDatabase = async (
@@ -9,8 +10,9 @@ export const updateMessageDatabase = async (
       credentials: "include",
       body: JSON.stringify(message),
       headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getCookie("accessToken"),
         "Content-Type": "application/json",
-        Authorization: "Bearer " + document.cookie.split("=")[1].split(";")[0],
       },
     });
 
@@ -24,7 +26,7 @@ export const getMessages = async () => {
   const response = await fetch(`${INTERACTIVA_BASE_URL}/messages`, {
     credentials: "include",
     headers: {
-      Authorization: "Bearer " + document.cookie.split("=")[1].split(";")[0],
+      Authorization: "Bearer " + getCookie("accessToken"),
     },
   });
 

@@ -53,7 +53,7 @@ export const updateUser = async (
   const response = await fetchWithAuth(
     `${INTERACTIVA_BASE_URL}/users/${user.id}`,
     {
-      method: "PUT",
+      method: "PATCH",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
@@ -67,4 +67,18 @@ export const updateUser = async (
     const error = await response.json();
     throw new Error(error.error.message);
   }
+};
+
+export const getUserById = async (id: string) => {
+  const response = await fetchWithAuth(`${INTERACTIVA_BASE_URL}/users/${id}`, {
+    credentials: "include",
+    headers: {
+      Authorization: "Bearer " + getCookie("accessToken"),
+    },
+  });
+
+  if (!response.ok) throw new Error("Problem getting user");
+
+  const user = await response.json();
+  return user.data;
 };
