@@ -1,13 +1,15 @@
 import express from "express";
-
 import { StatusCodes } from "http-status-codes";
 
 import userRouter from "./userRoute";
 import authRouter from "./authRoute";
 import chatRouter from "./chatRoute";
-import messageRouter from "./messageRoute";
+import modelRouter from "./modelRoute";
 import ollamaRouter from "./ollamaRoute";
-import { loggerWithNameSpace } from "../utils"
+import promptRouter from "./promptRoute";
+import messageRouter from "./messageRoute";
+import commentRouter from "./commentRoute";
+import { loggerWithNameSpace } from "../utils";
 
 const router = express();
 const logger = loggerWithNameSpace(__filename);
@@ -21,9 +23,12 @@ router.get("/", (_, res) => {
 
 // Use Routes
 router.use("/auth", authRouter);
-router.use("/users", userRouter);
 router.use("/c", chatRouter);
+router.use("/comments", commentRouter);
 router.use("/messages", messageRouter);
+router.use("/models", modelRouter);
 router.use("/ollama", ollamaRouter);
+router.use("/prompts", promptRouter);
+router.use("/users", userRouter);
 
 export default router;
