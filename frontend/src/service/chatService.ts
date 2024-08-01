@@ -5,7 +5,7 @@ export const getChats = async () => {
   const response = await fetch(`${INTERACTIVA_BASE_URL}/c`, {
     credentials: "include",
     headers: {
-      // Authorization: "Bearer " + document.cookie.split("=")[1].split(";")[0],
+      "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie("accessToken"),
     },
   });
@@ -19,33 +19,59 @@ export const getChats = async () => {
   return chats;
 };
 
-export const getChat = async (id: string): Promise<Response> => {
+export const getChat = async (id: string) => {
   const response = await fetch(`${INTERACTIVA_BASE_URL}/c/${id}`, {
     credentials: "include",
     headers: {
-      // Authorization: "Bearer " + document.cookie.split("=")[1].split(";")[0],
+      "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie("accessToken"),
     },
   });
 
   if (!response.body) {
-    throw new Error("Problem with ReadableStream");
+    throw new Error("Problem getting chat info");
   }
 
-  return response;
+  const chat = await response.json();
+  return chat;
 };
 
-export const updateChat = async (
-  chatParams: { role: string; content: string }[],
-): Promise<Response> => {
+export const createChat = async () => {
   const response = await fetch(`${INTERACTIVA_BASE_URL}/c`, {
-    method: "PATCH",
-    body: JSON.stringify(chatParams),
-    headers: { "Content-Type": "application/json" },
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("accessToken"),
+    },
   });
 
   if (!response.body) {
-    throw new Error("Problem with ReadableStream");
+    throw new Error("Problem creating chat");
+  }
+
+  const data = await response.json();
+
+  window.history.pushState(null, "", `/c/${data.data.id}`);
+};
+
+export const updateChat = async (chat: {
+  id: string;
+  title: string;
+}): Promise<Response> => {
+  const response = await fetch(`${INTERACTIVA_BASE_URL}/c/${chat.id}`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      Authorization: "Bearer " + getCookie("accessToken"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(chat),
+  });
+
+  if (!response.body) {
+    throw new Error("Problem updating chat");
   }
 
   return response;
@@ -56,12 +82,17 @@ export const deleteChat = async (
 ): Promise<Response> => {
   const response = await fetch(`${INTERACTIVA_BASE_URL}/c/chat`, {
     method: "DELETE",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      Authorization: "Bearer " + getCookie("accessToken"),
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(chatParams),
-    headers: { "Content-Type": "application/json" },
   });
 
   if (!response.body) {
-    throw new Error("Problem with ReadableStream");
+    throw new Error("Problem deleting chat");
   }
 
   return response;
