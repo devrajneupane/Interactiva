@@ -6,6 +6,7 @@ import userRouter from "./userRoute";
 import authRouter from "./authRoute";
 import chatRouter from "./chatRoute";
 import messageRouter from "./messageRoute";
+import ollamaRouter from "./ollamaRoute";
 import { loggerWithNameSpace } from "../utils"
 
 const router = express();
@@ -23,5 +24,6 @@ router.use("/auth", authRouter);
 router.use("/users", userRouter);
 router.use("/c", chatRouter);
 router.use("/messages", messageRouter);
+router.use("/ollama", ollamaRouter);
 
 export default router;

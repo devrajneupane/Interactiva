@@ -42,13 +42,13 @@ export async function createMessage(req: IRequest, res: Response) {
   const userId = req.user?.id as UUID;
   if (!chatId) throw new NotFound("Chat Id not found");
 
-  const content = req.body?.content as string;
   logger.info(`Creating new message for chat ${chatId}`);
 
   const serviceData = await MessageService.createMessage(
     chatId,
     userId,
-    content
+    // TODO: schema validation for req.body
+    req.body,
   );
   logger.info(`Message ${serviceData.data?.id} created successfully`);
 

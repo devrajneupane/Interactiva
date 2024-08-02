@@ -1,17 +1,11 @@
-// TODO: handle streaming response from model
 import { UUID } from "crypto";
 
-import { Ollama } from "ollama";
-
-import { env } from "../config";
 import { SENDER } from "../enums";
 import { MessageModel } from "../model";
 import { getUUID } from "../utils/utils";
 import * as ChatService from "./chatService";
 import { NotFound, UnauthorizedError } from "../error";
 import { IGetUserQuery, IMessage } from "../interface";
-
-const ollama = new Ollama({ host: env.ollama.host });
 
 /**
  * Get all Messages in given chat
@@ -34,39 +28,25 @@ export async function getMessages(chatId: UUID, query: IGetUserQuery) {
  *
  * @param {UUID} chatId Chat Id
  * @param {UUID} userId User Id
- * @param {string} content User prompt content
+ * @param {role: SENDER, content: string} payload User prompt content
  * @returns Newly created message object
  */
 export async function createMessage(
   chatId: UUID,
   userId: UUID,
-  content: string,
+  payload: { role: SENDER, content: string },
 ) {
   const message: Omit<IMessage, "updatedAt"> = {
     id: getUUID(),
     chatId,
-    sender: SENDER.USER,
-    content,
+    sender: payload.role,
+    content: payload.content,
     createdAt: new Date(),
   };
-  const response = await ollama.chat({
-    model: "llama3.1",
-    messages: [
-      {
-        role: SENDER.USER,
-        content: content,
-      },
-    ],
-    // stream: true,
-  });
-  await MessageModel.createMessage(message);
-
-  message.id = getUUID();
-  message.sender = SENDER.ASSISTANT;
-  message.content = response.message.content;
-  message.createdAt = new Date();
 
   const data = await MessageModel.createMessage(message);
+
+  // Update chat update time
   await ChatService.updateChat(chatId, userId);
 
   return {

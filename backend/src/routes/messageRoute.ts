@@ -10,20 +10,15 @@ import * as controller from "../controller/messageController";
 
 const router = Router();
 
-router.get(
-  "/",
-  requestHandler([
-    authenticate,
-    controller.getMessages,
-  ]),
-);
+router.get("/", requestHandler([authenticate, controller.getMessages]));
 
 router.post(
   "/",
   requestHandler([
     authenticate,
     authorize([ROLE.ADMIN, ROLE.USER]),
-    validator.validateReqBody(messageBodySchema),
+    // validator.validateReqBody(messageBodySchema),
+    // TODO: DEV
     controller.createMessage,
   ]),
 );
