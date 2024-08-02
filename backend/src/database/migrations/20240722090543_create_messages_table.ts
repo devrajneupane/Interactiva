@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 
-import { TABLE } from "../../enums/Tables";
+import { SENDER, TABLE } from "../../enums";
 
 /**
  * Create table `TABLE.MESSAGE`.
@@ -15,17 +15,17 @@ export async function up(knex: Knex): Promise<void> {
       .uuid("chat_id", { useBinaryUuid: true })
       .references("id")
       .inTable(TABLE.CHAT)
+      .notNullable()
       .onDelete("CASCADE");
-    table.string("title", 100).nullable();
     table
-      .enu("sender", ["user", "model"], {
+      .enu("sender", Object.values(SENDER), {
         useNative: true,
         enumName: "sender",
       })
       .notNullable();
-    table.string("message").notNullable();
-    table.timestamp("send_at").notNullable().defaultTo(knex.fn.now());
-    table.timestamp("updated_at").nullable().defaultTo(knex.fn.now());
+    table.text("content").notNullable();
+    table.timestamp("created_at").notNullable().defaultTo(knex.fn.now());
+    table.timestamp("updated_at").nullable();
   });
 }
 

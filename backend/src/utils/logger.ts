@@ -13,11 +13,12 @@ const logger = winston.createLogger({
     format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     format.metadata(),
     logFormat,
-    format.colorize({ all: true }),
   ),
   transports: [
     // Transport to write logs to console
-    new winston.transports.Console(),
+    new winston.transports.Console({
+      format: format.colorize({ all: true }),
+    }),
 
     // Transport to write logs to a file
     new winston.transports.File({
@@ -26,8 +27,9 @@ const logger = winston.createLogger({
   ],
 });
 
-const loggerWithNameSpace = function (namespace: string) {
+export const loggerWithNameSpace = function (namespace: string) {
   return logger.child({ namespace });
 };
 
+// TODO: remove this default export
 export default loggerWithNameSpace;

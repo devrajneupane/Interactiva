@@ -4,7 +4,10 @@ import { StatusCodes } from "http-status-codes";
 
 import userRouter from "./userRoute";
 import authRouter from "./authRoute";
-import loggerWithNameSpace from "../utils/logger";
+import chatRouter from "./chatRoute";
+import messageRouter from "./messageRoute";
+import ollamaRouter from "./ollamaRoute";
+import { loggerWithNameSpace } from "../utils"
 
 const router = express();
 const logger = loggerWithNameSpace(__filename);
@@ -19,5 +22,8 @@ router.get("/", (_, res) => {
 // Use Routes
 router.use("/auth", authRouter);
 router.use("/users", userRouter);
+router.use("/c", chatRouter);
+router.use("/messages", messageRouter);
+router.use("/ollama", ollamaRouter);
 
 export default router;
