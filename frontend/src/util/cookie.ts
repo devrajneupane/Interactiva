@@ -1,17 +1,8 @@
-/*
- * General utils for managing cookies
- */
-
 export function setCookie(name: string, val: string) {
-  const date = new Date();
-  const value = val;
+  const value = encodeURIComponent(val); // Ensure value is properly encoded
 
-  // Set it expire in 7 days
-  date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
-
-  // Set it
-  document.cookie =
-    name + "=" + value + "; expires=" + date.toUTCString() + "; path=/";
+  // Set the cookie with no expiration date, making it a session cookie
+  document.cookie = `${name}=${value};SameSite=None; Secure; path=/`;
 }
 
 export function getCookie(name: string): string | undefined {
@@ -30,7 +21,6 @@ export function deleteCookie(name: string) {
   // Set it expire in -1 days
   date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000);
 
-  // Set it
   document.cookie = name + "=; expires=" + date.toUTCString() + "; path=/";
 }
 
@@ -38,6 +28,8 @@ export function deleteAllCookies() {
   document.cookie.split(";").forEach((cookie) => {
     const eqPos = cookie.indexOf("=");
     const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+
+    // Setting the expiry day to past date deletes the cookie
     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
   });
 }
